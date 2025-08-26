@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
 from pyvirtualdisplay import Display
+from IPython.display import Image, display as ipy_display
 
 
 # Start virtual display (headless X server)
@@ -22,6 +23,9 @@ logging.getLogger("urllib3").setLevel(logging.ERROR)
 # CHROME_PATH = "/content/chrome-dev/chrome-linux64/chrome"
 CHROMEDRIVER_PATH = "/content/chromedriver-dev/chromedriver-linux64/chromedriver"
 PROFILE_PATH = "/content/chrome-profile"
+
+# Path for screenshots (same style as example)
+screenshot_path = "/content/screenshot.png"
 
 # Ensure chromedriver is executable (equivalent of `!chmod +x $CHROMEDRIVER_PATH` in Colab)
 try:
@@ -58,6 +62,13 @@ try:
 	driver.get("https://chatgpt.com")
 	# Biarkan halaman terbuka sebentar agar proses loading selesai saat dijalankan non-interaktif
 	time.sleep(10)
+	# Ambil dan tampilkan screenshot seperti contoh
+	try:
+		driver.save_screenshot(screenshot_path)
+		ipy_display(Image(filename=screenshot_path))
+		print("📸 Screenshot ditampilkan.")
+	except Exception as e:
+		print(f"⚠️ Gagal menampilkan screenshot: {e}. Disimpan di {screenshot_path}")
 	print("✅ Selesai membuka halaman.")
 finally:
 	# Tutup browser untuk mencegah proses tertinggal saat dijalankan otomatis
